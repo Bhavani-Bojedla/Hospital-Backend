@@ -17,9 +17,7 @@ const dbConnect = async () => {
         console.log("connected to db")
       })
   } catch (error) {
-    res.status(400).json({
-        msg:"not connected"
-       })
+     console.log(e);
   } 
 };
 
