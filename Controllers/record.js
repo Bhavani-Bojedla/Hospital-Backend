@@ -37,34 +37,34 @@ const createRecord = async (req, res) => {
       console.log(e); 
     }
   };
+  
   const deleteRecord = async (req, res) => {
     try {
-      const { id } = req.body;
-      const existingUser = await User.findByIdAndUpdate(
-         id ,
-        { $pull: { record: req.params.id } }
+      const recordId = req.params.id;
+      const existingUser = await User.findOneAndUpdate(
+        { 'record': recordId },
+        { $pull: { record: recordId } }
       );
       if (existingUser) {
-        await Record.findByIdAndDelete(req.params.id).then(() =>
-          res.status(200).json({
-            msg: "deleeted succesfully",
-          })
-        );
+        await Record.findByIdAndDelete(recordId);
+        res.status(200).json({ msg: "Deleted successfully" });
+      } else {
+        res.status(404).json({ msg: "Record not found for deletion" });
       }
     } catch (e) {
       console.log(e);
+      res.status(500).json({ msg: "Server error" });
     }
   };
   
-  const getRecordById = async (req, res) => {
-    const record= await Record.find({user:req.params.id}).sort({createdAt : -1});
-    if(record.length!==0){
-     res.status(200).json({record:record});
-    }
-    else{ 
-     res.status(200).json({msg:"no records"});
-    } 
- };
+ const getRecordById = async (req, res) => {
+  const record = await Record.findById(req.params.id);
+  if (record) {
+    res.status(200).json({ record });
+  } else {
+    res.status(404).json({ msg: "Record not found" });
+  }
+};
 
  const getRecord = async (req, res) => {
   const record= await Record.find().sort({createdAt : -1});
