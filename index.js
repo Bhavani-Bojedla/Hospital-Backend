@@ -1,27 +1,13 @@
 const express = require('express');
 const app = express();
 const cors = require("cors");
-const mongoose = require('mongoose');
-require('dotenv').config();
-const MONGO_URL = process.env.MONGO_URL;
+require("./Connection/conn");
 const userRoutes=require("./routes/userRoutes");
 const recordRouter=require("./routes/recordRoutes");
 
 app.use(express.json());
-app.use(cors());
+app.use(cors())
 
-// Database connection
-const dbConnect = async () => {
-  try {
-    await mongoose.connect(MONGO_URL) .then(()=>{
-        console.log("connected to db")
-      })
-  } catch (error) {
-     console.log(error);
-  } 
-};
-
-dbConnect();
 
 // Routes
 app.get("/", (req, res) => {
