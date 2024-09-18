@@ -68,15 +68,20 @@ const createRecord = async (req, res) => {
 
 const getRecordsForUser = async (req, res) => {
   try {
-    const userId = req.query.userId; // Get userId from query parameters
+    const userId = req.params.id;
     if (!userId) {
       return res.status(400).json({ msg: "User ID is required" });
     }
     const records = await Record.find({ user: userId }).sort({ createdAt: -1 });
+    if (records.length === 0) {
+      return res.status(200).json({ msg: "No records found" });
+    }
     res.status(200).json({ records });
   } catch (e) {
     console.log(e);
     res.status(500).json({ msg: "Server error" });
   }
 };
+
+
 module.exports = { createRecord,updateRecord,getRecordsForUser,deleteRecord,getRecordById};
