@@ -66,13 +66,17 @@ const createRecord = async (req, res) => {
   }
 };
 
- const getRecord = async (req, res) => {
-  const record= await Record.find().sort({createdAt : -1});
-  if(record.length!==0){
-   res.status(200).json({record:record});
+const getRecordsForUser = async (req, res) => {
+  try {
+    const userId = req.query.userId; // Get userId from query parameters
+    if (!userId) {
+      return res.status(400).json({ msg: "User ID is required" });
+    }
+    const records = await Record.find({ user: userId }).sort({ createdAt: -1 });
+    res.status(200).json({ records });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ msg: "Server error" });
   }
-  else{ 
-   res.status(200).json({msg:"no records"});
-  } 
 };
-module.exports = { createRecord,updateRecord,getRecord,deleteRecord,getRecordById};
+module.exports = { createRecord,updateRecord,getRecordsForUser,deleteRecord,getRecordById};

@@ -7,6 +7,6 @@ recordRouter.post("/createrecord", recordController.createRecord);
 recordRouter.put("/updaterecord/:id", recordController.updateRecord);
 recordRouter.delete("/deleterecord/:id",recordController.deleteRecord);
 recordRouter.get("/getrecord/:id",recordController.getRecordById);
-recordRouter.get("/getrecord",recordController.getRecord);
+recordRouter.get("/getrecord",recordController.getRecordsForUser);
 
 module.exports = recordRouter;
