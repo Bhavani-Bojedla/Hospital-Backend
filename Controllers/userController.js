@@ -40,11 +40,11 @@ const checkUser = async (req, res) => {
       if (!isValidPassword) {
         return res.status(400).json({ message: "The password is incorrect" });
       }
-      res.json({ message: "success" }); 
-      // const {...others}=users._doc; 
-      // res.status(200).json({others,
-      //   msg:"success" 
-      // });
+      // res.json({ message: "success" }); 
+      const {...others}=users._doc; 
+      res.status(200).json({others,
+        msg:"success" 
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal Server Error" });
